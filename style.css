@@ -12,9 +12,9 @@
     --primary-s-top: 1%; 
     --primary-l-top: 64%; 
    /* Colour thing */ 
-    --primary-h-bottom: 0; /*hue*/
+    --primary-h-bottom: 21; /*hue*/
     --primary-s-bottom: 100%; /*saturation*/
-    --primary-l-bottom: 1%; /*lightness*/
+    --primary-l-bottom: 0%; /*lightness*/
     --text-color: black;
     --box-shadow-color: rgba(0, 0, 0, 0.1);
 }
