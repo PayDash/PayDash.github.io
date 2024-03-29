@@ -24,7 +24,6 @@
   width: 0.3rem;
   height: auto;
   scrollbar-width: thin;
-  /* scrollbar-gutter: unset; */
   border-radius: 50%;
 }
 
@@ -33,7 +32,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: #2c2c2c; /* Discord-like scrollbar thumb color */
+    background-color: #2c2c2c;
   border-radius: 10px;
 }
 
@@ -84,7 +83,7 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: url("https://media.discordapp.net/attachments/982987287228973078/1213130814150152283/wallhaven-l8v3ey.webp?ex=65f45b1c&is=65e1e61c&hm=30c2c8eded0f201d2240047da3dc803166a2032097f0f042fafba349dd5914ad&=&format=webp");
+  background-image: url("https://media.discordapp.net/attachments/982987287228973078/1213130814150152283/wallhaven-l8v3ey.webp?ex=6619451c&is=6606d01c&hm=e9823c66668529df388e69c3c230e51ea870df2c54ab4a3ef9e5992dc2528fb0&=&format=webp");
   background-repeat: no-repeat;
   z-index: -1;
   filter: blur(5px);
@@ -499,7 +498,7 @@ body {
 
 @media (width <=640px) {
   .container::before {
-    background-image: url("https://media.discordapp.net/attachments/982987287228973078/1172590822798135306/wizz.webp?ex=65eb4ccd&is=65d8d7cd&hm=f49074c2dcad7e45646d6306e98f15b89359592e4ce8e3a42a64e5a125c4d83d&=&format=webp");
+    background-image: url("https://media.discordapp.net/attachments/982987287228973078/1172590822798135306/wizz.webp?ex=6619714d&is=6606fc4d&hm=2ab6e06d13fcafc9e7bd6d44d49da2ff3b93b9efdc4946ce0ec943c0592a3f06&=&format=webp");
     margin: -2px;
     filter: blur(2px);
     background-color: rgba(0, 0, 0, 0.5);
