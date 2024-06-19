@@ -21,7 +21,7 @@ async function fetchDiscordStatus() {
 			fetch(`https://api.lanyard.rest/v1/users/${userID}`).then((response) =>
 				response.json()
 			),
-			fetch(`https://discordlookup.mesavirep.xyz/v1/user/${userID}`).then(
+			fetch(`https://discordlookup.mesalytic.moe/v1/user/${userID}`).then(
 				(response) => response.json()
 			),
 		]);
