@@ -503,7 +503,7 @@ body {
 
 @media (width <=640px) {
   .container::before {
-    background-image: url("https://media.discordapp.net/attachments/982987287228973078/1172590822798135306/wizz.webp?ex=6619714d&is=6606fc4d&hm=2ab6e06d13fcafc9e7bd6d44d49da2ff3b93b9efdc4946ce0ec943c0592a3f06&=&format=webp");
+    background-image: url("https://i.pinimg.com/564x/34/a3/fb/34a3fb8cfaaa62a99ae77a060a87dec4.jpg");
     margin: -2px;
     filter: blur(2px);
     background-color: rgba(0, 0, 0, 0.5);
