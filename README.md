@@ -1,2 +1,0 @@
-# PayDash.github.io
-cool

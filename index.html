@@ -1,107 +1,1012 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Vibez">
-    <meta property="og:title" content="🗿Vibez🗿" />
-    <meta property="og:description" content="Profile" />
-    <meta property="og:url" content="♥︎" />
-    <meta property="og:image" content="https://media.discordapp.net/attachments/1011865242785026089/1162491182622969987/wdsfs.png?ex=653c2147&is=6529ac47&hm=a2942fb71aec8cb2836cf9ff43aa0adf38292fca8857bbbf1e163784e37fe1c0&=">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Vibez">
-    <meta name="keywords" content="vibez">
-    <link rel="icon" href="./crap/avatar.ico">
-    <link rel="stylesheet" href="style.css">
-    <link href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" rel="stylesheet" crossorigin>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vibez</title>
+    <link rel="icon" type="image/x-icon" href="assets/g.png">
+    <meta name="description" content="Vibez">
+    <meta property="og:title" content="Trash Bio">
+    <meta property="og:description" content="Made By A Dummy">
+    <meta property="og:url" content="index.html">
+    <meta property="og:type" content="website">
+    <meta name="theme-color" content="#4B4B4B">
+    <link rel="stylesheet" href="css/landing.css">
+    <link rel="stylesheet" href="css/star.css">
+	<link rel="stylesheet" type="text/css" href="css/glitch.css">
+
+<style>
+
+@font-face {
+    font-family: custom-font;
+    src: url(assets/gt.ttf);
+}
+* {
+    font-family: custom-font;
+    cursor: url(assets/sxdaup.cur) 16 16, auto !important;
+}
+
+body {
+    cursor: move;
+    background-size: cover;
+    background-position: center center;
+    display: flex;
+    color: #fff;
+    background-color: #1F2128;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.glow-username {
+    font-size: 30px;
+    margin-right: 10px;
+    color: #d6d6d6;
+    font-weight: bold;
+    line-height: 2rem;
+    text-align: center;
+    filter: drop-shadow(0 0 0.2rem #bebebe);
+}
+
+
+
+.username-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+@keyframes glow {
+    0% {
+        box-shadow: 0 0 5px #ffffff, 0 0 10px #ffffff, 0 0 15px #ffffff, 0 0 20px #ffffff;
+    }
+    50% {
+        box-shadow: 0 0 20px #ffffff, 0 0 30px #ffffff, 0 0 40px #ffffff, 0 0 50px #ffffff;
+    }
+    100% {
+        box-shadow: 0 0 5px #ffffff, 0 0 10px #ffffff, 0 0 15px #ffffff, 0 0 20px #ffffff;
+    }
+}
+
+.avatar_effect {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    -o-object-fit: cover;
+    object-fit: cover;
+    margin: 0 auto;
+    animation: glow 2s infinite;
+    margin-bottom: 10px;
+}
+
+
+#avatar {
+  transition: transform 0.5s ease; 
+}
+
+#avatar:hover {
+  transform: rotateY(360deg); 
+}
+
+.avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    -o-object-fit: cover;
+    object-fit: cover;
+    margin: 0 auto;
+    margin-bottom: 10px;
+}
+
+#particles-js {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    top: 0;
+    left: 0;
+}
+
+.audio-controls {
+    position: relative; /* Change to relative if you want it positioned within the border */
+    bottom: 0; /* Adjust as necessary */
+    width: 100%; /* Make it take full width */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+  .volume-range {
+    -webkit-appearance: none; /* Remove default styling for Webkit browsers */
+    appearance: none; /* Remove default styling */
+    width: 30%;
+    height: 8px;
+    border-radius: 5px;
+    background: #ddd;
+    outline: none;
+    opacity: 0;
+    transition: opacity .2s;
+  }
+
+  .volume-range:hover {
+    opacity: 0.3;
+  }
+
+  .volume-range::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Remove default styling */
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #2b2b2b;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  .volume-range::-webkit-slider-thumb:hover {
+    background: #474747;
+  }
+
+  .volume-range::-moz-range-thumb {
+    width: 10px;
+    height: 10px;
+    border: none;
+    border-radius: 50%;
+    background: #2b2b2b;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  .volume-range::-moz-range-thumb:hover {
+    background: #474747;
+  }
+
+  .volume-range::-ms-thumb {
+    width: 10px;
+    height: 10px;
+    border: none;
+    border-radius: 50%;
+    background: #2b2b2b;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  .volume-range::-ms-thumb:hover {
+    background: #474747;
+  }
+
+
+@keyframes animate {
+  from {
+    filter: hue-rotate(0deg);
+  }
+  to {
+    filter: hue-rotate(360deg);
+  }
+}
+
+
+  /* border */
+  .border {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+      padding: 39px 27px;
+      width: 100%;
+      max-width: 35.9rem;
+      border-radius: 35px;
+      backdrop-filter: blur(7px);
+      background-color: rgba(36, 36, 36, 0.13) !important;
+      box-shadow: 0 0 2.5px #141414;
+  }
+      
+  @media (max-width : 480px) {
+      .border {
+          left: 50%;
+          padding: 0px, 0px;
+          width: 80%;
+          max-width: 100%;
+          border-radius: 21px;
+      }
+  }
+
+.icon:active {
+  transform: scale(1.2);
+}
+
+.icon {
+  transition: all 0.2s ease-in-out;
+}
+
+.icon:hover {
+  transform: scale(1.2);
+}
+
+.pixelated {
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    opacity: 1;
+	background-color: rgba(0, 0, 0, 0.55);
+    background: transparent url(assets/pixel.png) repeat 0 0;
+}
+
+  social-icons {
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+  }
+  
+  .icon {
+     margin: 3px;
+     width: 35px;
+     height: 35px;
+  }
+  
+  .icon-link {
+      margin: 10px;
+      text-decoration: none;
+      text-align: center;
+  }
+  
+  .icon-link:not(:nth-child(-n+8)) {
+      display: none;
+  }
+  
+  .social-media {
+      text-align: center;
+      position: relative;
+  }
+  
+  .description {
+    font-size: 17px;
+        margin: 14px 0;
+      color: #fff;
+  }
+  
+  .username {
+      color: #777777;
+      font-size: 30px;
+      margin-right: 10px;
+      
+      font-weight: bold;
+      text-shadow: 0 0 10px rgba(150, 47, 191, 0.7), 0 0 20px rgba(255, 0, 80, 0.7), 0 0 30px rgba(0, 242, 234, 0.7);
+      animation: username 13s infinite;
+  }
+  
+
+  
+  .normal-username {
+    color: #fff;
+    font-size: 30px;
+    margin-right: 10px;
+    
+    font-weight: bold;
+}
+  .sparky-effect {
+    background-image: url(assets/sparkle.gif);
+    display: inline-block;
+    padding: 10px;
+}
+
+@keyframes popin {
+    0% { transform: scale(0.5) translateX(-50%); }
+    100% { transform: scale(1) translateX(-50%); }
+}
+
+.tooltip {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #f0f0f0;
+    font-weight: 580!important;
+    user-select: none;
+    padding: 5px;
+    border-radius: 6px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    white-space: nowrap;
+    display: block;
+    z-index: 1;
+    transform: scale(0) translateX(-50%);
+    left: 50%;
+    bottom: 110%;
+    letter-spacing: .01cm!important;
+    font-size: 14.3px;
+    transition: transform 0.1s ease-out;
+}
+
+
+.role-icon:hover .tooltip,
+.role-icon:focus-within .tooltip {
+    animation: popin 0.1s ease-out forwards;
+}
+  
+  /* glow animation */
+  
+  @keyframes username {
+      0% {
+          text-shadow: 0px 0px 9px #5539cc;
+          opacity: 1;
+      }
+      14% {
+          text-shadow: 0px 0px 9px #5539cc;
+          opacity: 0.50;
+      }
+      20% {
+          text-shadow: 0px 0px 5px #feda75,
+          0px 0px 5px #fa7e1e,
+          0px 0px 5px #d62976,
+          0px 0px 5px #962fbf,
+          0px 0px 5px #4f5bd5;
+          opacity: 1;
+      }
+      30% {
+          text-shadow: 0px 0px 5px #229ED9;
+          opacity: 0.25;
+      }
+      40% {
+          text-shadow: 0px 0px 10px #A00003;
+          opacity: 1;
+      }
+      50% {
+          text-shadow: 0px 0px 10px #FFFC00;
+          opacity: 0.25;
+      }
+      60% {
+          text-shadow: 0px 0px 5px #0079C1;
+          opacity: 1;
+      }
+      70% {
+          text-shadow: 0px 0px 5px gray;
+          opacity: 0.25;
+      }
+      80% {
+          text-shadow: 0px 0px 5px blue;
+          opacity: 1;
+      }
+      90% {
+          text-shadow: 0px 0px 5px #E60023;
+          opacity: 0.25;
+      }
+  }
+  
+
+.videobg {
+    width: 100%;
+    height: 100%;
+    z-index: -3;
+    position: absolute
+}
+
+#vidx {
+    width: 100vw;
+    height: 100vh;
+    -o-object-fit: cover;
+    object-fit: cover;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: -1
+}
+
+@keyframes fadeinout{
+    0%{
+        background-position:-500%
+    }
+    100%{
+        background-position:500%
+    }
+}
+.fadeinoutname{
+    margin-right: 10px;
+    position:relative;
+    overflow:hidden;
+    background: linear-gradient(90deg,#000,#ffffff,#ffffff,#000);
+    background-repeat:no-repeat;
+    background-size:80%;
+    animation:fadeinout 2s linear infinite;
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent
+}
+
+</style>
+
+<style>
+@media (max-width: 767px) {
+    .info h1, .infocontainer h1 {
+        max-width: 115px;
+    }
+
+    .infocontainer h3 {
+        max-width: 115px;
+    }
+}
+
+@media (min-width: 768px) {
+    .info h1, .infocontainer h1 {
+        max-width: 170px;
+    }
+
+    .infocontainer h3 {
+        max-width: 170px;
+    }
+}
+
+@media (min-width: 992px) {
+    .info h1, .infocontainer h1 {
+        max-width: 210px;
+    }
+
+    .infocontainer h3 {
+        max-width: 210px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .info h1, .infocontainer h1 {
+        max-width: 240px;
+    }
+
+    .infocontainer h3 {
+        max-width: 270px;
+    }
+}
+
+@media (max-width: 359px) {
+    .info h1, .infocontainer h1 {
+        max-width: 100px;
+    }
+
+    .infocontainer h3 {
+        max-width: 100px;
+    }
+}
+
+.song-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    z-index: 10;
+}
+
+#song-info {
+    display: inline-block;
+    white-space: nowrap;
+    animation: scroll-text 10s linear infinite;
+    font-size: 18px;
+    padding-left: 100%;
+}
+
+@keyframes scroll-text {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+</style>
+
+
+
+<script>
+  var i = 0;
+  var txt = '';
+  var speed = 1000;
+  var isDeleting = false;
+
+  function typeWriter() {
+    if (isDeleting && i > 0) {
+      document.title = "@" + txt.substring(0, i-1);
+      i--;
+      setTimeout(typeWriter, speed);
+    } else if (!isDeleting && i < txt.length) {
+      document.title = "@" + txt.substring(0, i+1);
+      i++;
+      setTimeout(typeWriter, speed);
+    }
+
+    if (i == txt.length) {
+      isDeleting = true;
+    } else if (i == 0) {
+      isDeleting = false;
+    }
+  }
+
+  typeWriter();
+</script>
+
+<link rel="stylesheet" href="css/all.min.css">
 </head>
-<body oncontextmenu="return false">
-    <div class="container">
-        <div class="profile-border box-color">
-            <div class="profile box-color">
-                <div class="banner">
-                    <img id="banner-image" src="./crap/banner.png" alt="">
-                </div>
-                <div class="main-header">
-                    <div class="image">
-                        <div class="avatar">
-                            <img class="box-color" id="avatar-image" alt="" src="https://cdn.discordapp.com/avatars/706535111914684508/1ec002fe044e6184e70827107f90d99f">
-                            <div class="status box-color">
-                                <img id="status-image" src="./crap/status/offline.svg" alt="">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="badges box-color" id="badges">
-                        <div class="badges-right">
-                            <a class="tooltip" aria-label="HypeSquad Balance">
-                                <img alt=" " src="./crap/badges/hypesquad-balance.svg">
-                            </a>
-                            <a class="tooltip" id="active-developer" aria-label="Active Developer">
-                                <img alt=" " src="./crap/badges/active-developer.svg">
-                            </a>
-                        </div>
-                        <div class="badges-left"></div>
-                    </div>
-                </div>
-                <div class="card box-color">
-                    <div class="name-box">
-                        <span class="display-name">Vibez</span>
-                        <span class="username">byevibez</span>
-                        <span class="pronouns">☆ → ☆ ← ☆</span>
-                        <div class="custom-status">
-                            <img id="custom-status-emoji" />
-                            <p class="custom-status-text"></p>
-                        </div>
-                    </div>
-                    <div class="body">
-                        <div class="content">
-                            <div class="about-section">
-                                <div class="title-body">ABOUT ME</div>
-                                <span class="about-me">
-                                    They cant ban me HAHAHAHAHA
-                                </span>
-                            </div>
-                            <div class="join-section">
-                                <div class="title-body">DISCORD MEMBER SINCE</div>
-                                <span class="join">
-                                    Dec 17,2019
-                                </span>
-                            </div>
-                            <div class="title-body">ROLES</div>
-								<div class="roles-body">
-									<div class="rol rosepink">
-										<i class="fas fa-circle"></i>
-										<span>Idiot</span>
-                                </div>
-                            </div>
-                            <div class="divider social-divider"></div>
-                            <div class="socials">
-                                <div class="column">
-                                    <div class="platform">
-                                        <img class="platform-icon" alt=" " aria-hidden="true" src="./crap/platforms/steam.svg">
-                                        <div class="text-base platform-username">FuckVibez</div>
-                                        <a href="https://steamcommunity.com/id/FuckVibez/" rel="noreferrer noopener" target="_blank">
-                                            <img alt=" " id="link" aria-hidden="true" src="./crap/icons/link.svg" class="connect">
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="column">
-                                    <div class="platform">
-                                        <img class="platform-icon" alt=" " aria-hidden="true" src="./crap/platforms/github.svg">
-                                        <div class="text-base platform-username">PayDash</div>
-                                        <a href="https://github.com/PayDash" rel="noreferrer noopener" target="_blank">
-                                            <img alt=" " id="link" aria-hidden="true" src="./crap/icons/link.svg" class="connect">
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+
+<body>      
+
+ <div id="enter">
+        <p>Why Are You Here?</p>
+</div>
+
+<div style="background-image:url(assets/fart.mp4); position: absolute; height: 100%; width: 100%; background-size: cover; background-position: 50%; z-index: -1;"></div>
+
+<div class="videobg">
+  <video id="vidx" loop="" playsinline="" draggable="false" autoplay="" muted="">
+    <source src="assets/bg.mp4" type="video/mp4" id="video-source"></video>
+</div>
+
+
+<div class="pixelated"></div>
+<div class="landing" id="landing"> 
+<div id="particles-js"></div>
+
+<div class="border">
+  <div class="avatar">
+    <div class="avatar-container" style="display: flex; justify-content: center; align-items: center;">
+      <img src="assets/hooni.gif" alt="Avatar" class="inline-effect avatar" id="avatar">
     </div>
-    <script src="index.js"></script>
-</body>
+  </div>
+
+  <div class="social-media">
+    <h1 class="glow-username">Vibez</h1>
+    <p class="description typewrite" data-period="1000" data-type='["I stole this | Skibidi rizz sigma | meow meow meow"]'>
+      <span class="wrap"></span>
+    </p>
+
+    <div style="margin: 0 .5rem; color: #fff; font-size: 2rem; transition: all .2s ease-in-out; margin-top: 10px;">
+      <a href="https://github.com/paydash" target="_blank" rel="noopener noreferrer">
+        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" fill="#ffffff" height="36" width="36" style="filter: drop-shadow(0 0 0.2rem #ffffff);">
+          <path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path>
+        </svg>
+      </a>
+      <a href="https://www.roblox.com/users/2274875247/profile" target="_blank" rel="noopener noreferrer">
+        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="30.36 84.71 135.82 135.82" fill="#ffffff" height="36" width="36" style="filter: drop-shadow(0 0 0.2rem #ffffff);">
+          <path d="m59.06 84.709-28.7 107.116 107.115 28.701 28.702-107.116Zm32.445 55.499 18.825 5.044-5.299 19.775-18.825-5.044z"></path>
+        </svg>
+      </a>
+      <a href="https://discord.com/users/656351179554422826" target="_blank" rel="noopener noreferrer">
+        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" fill="#ffffff" height="36" width="36" style="filter: drop-shadow(0 0 0.2rem #ffffff);">
+          <path d="M524.531 69.836a1.5 1.5 0 0 0-.764-.7A485.065 485.065 0 0 0 404.081 32.03a1.816 1.816 0 0 0-1.923.91 337.461 337.461 0 0 0-14.9 30.6 447.848 447.848 0 0 0-134.426 0 309.541 309.541 0 0 0-15.135-30.6 1.89 1.89 0 0 0-1.924-.91 483.689 483.689 0 0 0-119.688 37.107 1.712 1.712 0 0 0-.788.676C39.068 183.651 18.186 294.69 28.43 404.354a2.016 2.016 0 0 0 .765 1.375 487.666 487.666 0 0 0 146.825 74.189 1.9 1.9 0 0 0 2.063-.676A348.2 348.2 0 0 0 208.12 430.4a1.86 1.86 0 0 0-1.019-2.588 321.173 321.173 0 0 1-45.868-21.853 1.885 1.885 0 0 1-.185-3.126 251.047 251.047 0 0 0 9.109-7.137 1.819 1.819 0 0 1 1.9-.256c96.229 43.917 200.41 43.917 295.5 0a1.812 1.812 0 0 1 1.924.233 234.533 234.533 0 0 0 9.132 7.16 1.884 1.884 0 0 1-.162 3.126 301.407 301.407 0 0 1-45.89 21.83 1.875 1.875 0 0 0-1 2.611 391.055 391.055 0 0 0 30.014 48.815 1.864 1.864 0 0 0 2.063.7A486.048 486.048 0 0 0 610.7 405.729a1.882 1.882 0 0 0 .765-1.352c12.264-126.783-20.532-236.912-86.934-334.541ZM222.491 337.58c-28.972 0-52.844-26.587-52.844-59.239s23.409-59.241 52.844-59.241c29.665 0 53.306 26.82 52.843 59.239 0 32.654-23.41 59.241-52.843 59.241Zm195.38 0c-28.971 0-52.843-26.587-52.843-59.239s23.409-59.241 52.843-59.241c29.667 0 53.307 26.82 52.844 59.239 0 32.654-23.177 59.241-52.844 59.241Z"></path>
+        </svg>
+      </a>
+    </div>
+
+    <div class="audio-controls">
+      <input type="range" id="volumeRange" class="volume-range" min="0" max="100" value="50">
+    </div>
+  </div>
+</div>
+
+<div class="song-bar">
+    <span id="song-info">⊂(￣▽￣)⊃ ⊂(￣▽￣)⊃ ⊂(￣▽￣)⊃ ⊂(￣▽￣)⊃⊂(￣▽￣)⊃ ⊂(￣▽￣)⊃ ⊂(￣▽￣)⊃ ⊂(￣▽￣)⊃⊂(￣▽￣)⊃ ⊂(￣▽￣)⊃ ⊂(￣▽￣)⊃ ⊂(￣▽￣)⊃</span>
+</div>
+
+<audio id="audio">
+  <source src="assets/loseme.mp3" type="audio/mpeg">
+  <source src="assets/moonlight.mp3" type="audio/mpeg">
+  <source src="assets/wait.mp3" type="audio/mpeg">
+  <source src="assets/lie.mp3" type="audio/mpeg">
+  <source src="assets/love.mp3" type="audio/mpeg">
+  <source src="assets/something.mp3" type="audio/mpeg">
+</audio>
+
+
+
+<script src="js/script.js"></script>
+<script src="js/enter.js"></script>
+<script src="js/particles.min.js"></script>
+
+<script>
+    var roleIconWrapper = document.querySelector('.role-icon-wrapper');
+    if (roleIconWrapper.innerHTML.trim() === '') {
+        roleIconWrapper.style.display = 'none';
+    }
+</script>
+
+<script src="js/browser.js"></script>
+  <script>
+window.addEventListener("load", (event) => {
+        new cursoreffects.fairyDustCursor({colors: ["#fffafa"]});
+});
+  </script>
+
+
+<script>
+    var roleIconWrapper = document.querySelector('.role-icon-wrapper');
+    if (roleIconWrapper.innerHTML.trim() === '') {
+        roleIconWrapper.style.display = 'none';
+    }
+</script>
+
+<script>
+   var TxtType = function(el, toRotate, period) {
+    this.toRotate = toRotate;
+    this.el = el;
+    this.loopNum = 0;
+    this.period = parseInt(period, 10) || 1000;
+    this.txt = '';
+    this.isDeleting = false;
+    this.messages = this.toRotate[this.loopNum].split('|').map(message => message.replace(/!br!/g, '<br/>'));
+    this.messageIndex = 0;
+    this.tick();
+};
+
+window.onload = function() {
+    var elements = document.getElementsByClassName('typewrite');
+    for (var i=0; i<elements.length; i++) {
+        var toRotate = elements[i].getAttribute('data-type');
+        toRotate = toRotate.replace(/\n|\r\n/g, '\\n');
+        var period = elements[i].getAttribute('data-period');
+        if (toRotate) {
+            var parsed = JSON.parse(toRotate); 
+            for (var j=0; j<parsed.length; j++) {
+                parsed[j] = parsed[j].replace(/\\n/g, '\n').replace(/\n/g, '!br!');
+            }
+            new TxtType(elements[i], parsed, period);
+        }
+    }
+    var css = document.createElement("style");
+    css.type = "text/css";
+    css.innerHTML = ".typewrite > .wrap { border-right: 0.08em solid #fff}";
+    document.body.appendChild(css);
+};
+
+TxtType.prototype.tick = function() {
+    var fullTxt = this.messages[this.messageIndex];
+
+    if (this.isDeleting) {
+        if (this.txt.endsWith('<br/>')) {
+            this.txt = this.txt.substring(0, this.txt.lastIndexOf('<'));
+        } else {
+            this.txt = fullTxt.substring(0, this.txt.length - 1);
+        }
+    } else {
+        if (fullTxt.substring(this.txt.length, this.txt.length + 5) === '<br/>') {
+            this.txt += '<br/>';
+        } else {
+            this.txt = fullTxt.substring(0, this.txt.length + 1);
+        }
+    }
+
+    this.el.innerHTML = '<span class="wrap">'+this.txt+'</span>';
+
+    var that = this;
+    var delta = 200 - Math.random() * 100;
+
+    if (this.isDeleting) { 
+        delta /= 4;
+        if (this.txt === '') {
+            this.isDeleting = false;
+            if (++this.messageIndex >= this.messages.length) {
+                this.messageIndex = 0;
+                this.loopNum++;
+                if (this.loopNum >= this.toRotate.length) {
+                    this.loopNum = 0;
+                }
+                this.messages = this.toRotate[this.loopNum].split('|').map(message => message.replace(/!br!/g, '<br/>'));
+            }
+            delta = 500;
+        }
+    }
+
+    if (!this.isDeleting && this.txt === fullTxt) {
+        delta = this.period;
+        this.isDeleting = true;
+    }
+
+    setTimeout(function() {
+        that.tick();
+    }, delta);
+};
+</script>
+
+<!-- 
+<script>
+particlesJS("particles-js", {
+      particles: {
+        number: {
+          value: 100,
+          density: {
+            enable: true,
+            value_area: 800,
+          },
+        },
+        color: {
+          value: "#ffffff", 
+        },
+        shape: {
+          type: "circle", 
+        },
+        opacity: {
+          value: 0.8,
+          random: true,
+          anim: {
+            enable: true,
+            speed: 1,
+            opacity_min: 0.1,
+            sync: false,
+          },
+        },
+        size: {
+          value: 5,
+          random: true,
+          anim: {
+            enable: true,
+            speed: 2,
+            size_min: 1,
+            sync: false,
+          },
+        },
+        line_linked: {
+          enable: false,
+        },
+        move: {
+          enable: true,
+          speed: 1, 
+          direction: "bottom",
+          random: true,
+          straight: false,
+          out_mode: "out",
+          bounce: false,
+        },
+      },
+      interactivity: {
+        detect_on: "canvas",
+        events: {
+          onhover: {
+            enable: false,
+          },
+          onclick: {
+            enable: false,
+          },
+          resize: true,
+        },
+        modes: {
+          grab: {
+            distance: 400,
+            line_linked: {
+              opacity: 1,
+            },
+          },
+          bubble: {
+            distance: 250,
+            size: 0,
+            duration: 2,
+            opacity: 0,
+          },
+          repulse: {
+            distance: 400,
+            duration: 0.4,
+          },
+          push: {
+            particles_nb: 4,
+          },
+          remove: {
+            particles_nb: 2,
+          },
+        },
+      },
+      retina_detect: true,
+    });
+
+</script>
+-->  
+<!-- 
+<script type="text/javascript">
+  // <![CDATA[
+  var colour="#6b7c85"; // in addition to "random" can be set to any valid colour eg "#f0f" or "red"
+  var sparkles=50;
+  
+  /****************************
+  *  Tinkerbell Magic Sparkle *
+  *(c)2005-13 mf2fm web-design*
+  *  http://www.mf2fm.com/rv  *
+  * DON'T EDIT BELOW THIS BOX *
+  ****************************/
+  var x=ox=400;
+  var y=oy=300;
+  var swide=800;
+  var shigh=600;
+  var sleft=sdown=0;
+  var tiny=new Array();
+  var star=new Array();
+  var starv=new Array();
+  var starx=new Array();
+  var stary=new Array();
+  var tinyx=new Array();
+  var tinyy=new Array();
+  var tinyv=new Array();
+  
+  window.onload=function() { if (document.getElementById) {
+    var i, rats, rlef, rdow;
+    for (var i=0; i<sparkles; i++) {
+      var rats=createDiv(3, 3);
+      rats.style.visibility="hidden";
+      rats.style.zIndex="999";
+      document.body.appendChild(tiny[i]=rats);
+      starv[i]=0;
+      tinyv[i]=0;
+      var rats=createDiv(5, 5);
+      rats.style.backgroundColor="transparent";
+      rats.style.visibility="hidden";
+      rats.style.zIndex="999";
+      var rlef=createDiv(1, 5);
+      var rdow=createDiv(5, 1);
+      rats.appendChild(rlef);
+      rats.appendChild(rdow);
+      rlef.style.top="2px";
+      rlef.style.left="0px";
+      rdow.style.top="0px";
+      rdow.style.left="2px";
+      document.body.appendChild(star[i]=rats);
+    }
+    set_width();
+    sparkle();
+  }}
+  
+  function sparkle() {
+    var c;
+    if (Math.abs(x-ox)>1 || Math.abs(y-oy)>1) {
+      ox=x;
+      oy=y;
+      for (c=0; c<sparkles; c++) if (!starv[c]) {
+        star[c].style.left=(starx[c]=x)+"px";
+        star[c].style.top=(stary[c]=y+1)+"px";
+        star[c].style.clip="rect(0px, 5px, 5px, 0px)";
+        star[c].childNodes[0].style.backgroundColor=star[c].childNodes[1].style.backgroundColor=(colour=="random")?newColour():colour;
+        star[c].style.visibility="visible";
+      star[c].style.pointerEvents='none';
+        starv[c]=50;
+        break;
+      }
+    }
+    for (c=0; c<sparkles; c++) {
+      if (starv[c]) update_star(c);
+      if (tinyv[c]) update_tiny(c);
+    }
+    setTimeout("sparkle()", 40);
+  }
+  
+  function update_star(i) {
+    if (--starv[i]==25) star[i].style.clip="rect(1px, 4px, 4px, 1px)";
+    if (starv[i]) {
+      stary[i]+=1+Math.random()*3;
+      starx[i]+=(i%5-2)/5;
+      if (stary[i]<shigh+sdown) {
+        star[i].style.top=stary[i]+"px";
+        star[i].style.left=starx[i]+"px";
+      }
+      else {
+        star[i].style.visibility="hidden";
+        starv[i]=0;
+        return;
+      }
+    }
+    else {
+      tinyv[i]=50;
+      tiny[i].style.top=(tinyy[i]=stary[i])+"px";
+      tiny[i].style.left=(tinyx[i]=starx[i])+"px";
+      tiny[i].style.width="2px";
+      tiny[i].style.height="2px";
+      tiny[i].style.backgroundColor=star[i].childNodes[0].style.backgroundColor;
+      star[i].style.visibility="hidden";
+      tiny[i].style.visibility="visible"
+    }
+  }
+  
+  function update_tiny(i) {
+    if (--tinyv[i]==25) {
+      tiny[i].style.width="1px";
+      tiny[i].style.height="1px";
+    }
+    if (tinyv[i]) {
+      tinyy[i]+=1+Math.random()*3;
+      tinyx[i]+=(i%5-2)/5;
+      if (tinyy[i]<shigh+sdown) {
+        tiny[i].style.top=tinyy[i]+"px";
+        tiny[i].style.left=tinyx[i]+"px";
+      }
+      else {
+        tiny[i].style.visibility="hidden";
+        tinyv[i]=0;
+        return;
+      }
+    }
+    else tiny[i].style.visibility="hidden";
+  }
+  
+  document.onmousemove=mouse;
+  function mouse(e) {
+    if (e) {
+      y=e.pageY;
+      x=e.pageX;
+    }
+    else {
+      set_scroll();
+      y=event.y+sdown;
+      x=event.x+sleft;
+    }
+  }
+  
+  window.onscroll=set_scroll;
+  function set_scroll() {
+    if (typeof(self.pageYOffset)=='number') {
+      sdown=self.pageYOffset;
+      sleft=self.pageXOffset;
+    }
+    else if (document.body && (document.body.scrollTop || document.body.scrollLeft)) {
+      sdown=document.body.scrollTop;
+      sleft=document.body.scrollLeft;
+    }
+    else if (document.documentElement && (document.documentElement.scrollTop || document.documentElement.scrollLeft)) {
+      sleft=document.documentElement.scrollLeft;
+      sdown=document.documentElement.scrollTop;
+    }
+    else {
+      sdown=0;
+      sleft=0;
+    }
+  }
+  
+  window.onresize=set_width;
+  function set_width() {
+    var sw_min=999999;
+    var sh_min=999999;
+    if (document.documentElement && document.documentElement.clientWidth) {
+      if (document.documentElement.clientWidth>0) sw_min=document.documentElement.clientWidth;
+      if (document.documentElement.clientHeight>0) sh_min=document.documentElement.clientHeight;
+    }
+    if (typeof(self.innerWidth)=='number' && self.innerWidth) {
+      if (self.innerWidth>0 && self.innerWidth<sw_min) sw_min=self.innerWidth;
+      if (self.innerHeight>0 && self.innerHeight<sh_min) sh_min=self.innerHeight;
+    }
+    if (document.body.clientWidth) {
+      if (document.body.clientWidth>0 && document.body.clientWidth<sw_min) sw_min=document.body.clientWidth;
+      if (document.body.clientHeight>0 && document.body.clientHeight<sh_min) sh_min=document.body.clientHeight;
+    }
+    if (sw_min==999999 || sh_min==999999) {
+      sw_min=800;
+      sh_min=600;
+    }
+    swide=sw_min;
+    shigh=sh_min;
+  }
+  
+  function createDiv(height, width) {
+    var div=document.createElement("div");
+    div.style.position="absolute";
+    div.style.height=height+"px";
+    div.style.width=width+"px";
+    div.style.overflow="hidden";
+    return (div);
+  }
+  
+  function newColour() {
+    var c=new Array();
+    c[0]=255;
+    c[1]=Math.floor(Math.random()*256);
+    c[2]=Math.floor(Math.random()*(256-c[1]/2));
+    c.sort(function(){return (0.5 - Math.random());});
+    return ("rgb("+c[0]+", "+c[1]+", "+c[2]+")");
+  }
+</script>
+-->  
+
+
+<style type="text/css">.typewrite > .wrap { border-right: 0.08em solid #fff}</style></body>
 </html>
