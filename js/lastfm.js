@@ -7,9 +7,6 @@
 
   const LASTFM_API = "https://ws.audioscrobbler.com/2.0";
 
-  // Last.fm serves this fixed image when no art exists — skip it.
-  const PLACEHOLDER_HASH = "2a96cbd8b46e442fc41c2b86b821562f";
-
   const CACHE_KEY = "vibez:lastfm:v3"; // v3: wiped the old small-size art URLs
 
   function credentials() {
@@ -44,15 +41,7 @@
   }
 
   function pickImageUrl(imgs) {
-    // biggest rendition first — "small" is literally 34×34 and upscaled small
-    // art is exactly what made thumbnails look pixelated
-    const sizes = ["mega", "extralarge", "large", "medium", "small"];
-    for (const sz of sizes) {
-      const entry = (imgs || []).find(function (i) { return i.size === sz; });
-      const url = (entry && entry["#text"]) || "";
-      if (url && url.indexOf(PLACEHOLDER_HASH) === -1) return url;
-    }
-    return "";
+    return window.ART_URL.pickImageUrl(imgs);
   }
 
   function normalizeTrack(raw) {
@@ -176,6 +165,7 @@
   // localStorage — a cover for a given track/artist never changes.
 
   const ART_KEY = "vibez:artwork:v2"; // v2: 200px renditions (v1 held 300px)
+  const ART_MISS_TTL = 60 * 60 * 1000; // retry failed lookups after an hour
   const artCache = {}; // lazy-loaded from localStorage
   let artLoaded = false;
   const inflightArt = {}; // dedupe concurrent identical lookups
@@ -245,7 +235,15 @@
   function lookupArtwork(kind, name, artist) {
     const cache = loadArtCache();
     const key = kind + ":" + name.toLowerCase() + "|" + (artist || "").toLowerCase();
-    if (cache[key]) return Promise.resolve(cache[key]);
+    const hit = cache[key];
+    if (hit) {
+      if (typeof hit === "string") return Promise.resolve(hit);
+      // negative cache: a miss is remembered for an hour so tracks without
+      // art anywhere don't hammer the iTunes API on every poll
+      if (typeof hit === "object" && Date.now() - hit.err < ART_MISS_TTL) {
+        return Promise.resolve("");
+      }
+    }
     if (inflightArt[key]) return inflightArt[key];
 
     const promise = (kind === "artist"
@@ -254,10 +252,8 @@
     )
       .then(function (url) {
         delete inflightArt[key];
-        if (url) {
-          cache[key] = url;
-          saveArtCache();
-        }
+        cache[key] = url || { err: Date.now() };
+        saveArtCache();
         return url;
       })
       .catch(function () {

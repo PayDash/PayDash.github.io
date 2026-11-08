@@ -950,10 +950,9 @@ body {
 
 /* ---------- reduced motion ---------- */
 
+/* Reduce Motion (iOS Accessibility etc.) kills only the big 3D flip — the
+   small ambient life (ticker, EQ bars, dots) is slow, low-amplitude and
+   stays on, so the page keeps its pulse on phones that have RM enabled */
 @media (prefers-reduced-motion: reduce) {
   .card-flip { transition: none; }
-  .eq span { animation: none; }
-  .song-bar[data-state="playing"] .song-dot { animation: none; }
-  .recents-live-dot { animation: none; }
-  .song-text { animation: none; }
 }

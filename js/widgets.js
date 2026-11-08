@@ -139,7 +139,7 @@
 
   // ---------- custom volume slider ----------
 
-  const volume = { value: 0.5, muted: false, lastValue: 0.5 };
+  const volume = { value: 0.5, muted: false };
   const volWrap = el("volume-wrap");
   const volTrack = el("vol-track");
   const volFill = el("vol-fill");
@@ -273,7 +273,6 @@
   // ---------- Now Playing bar + Recently Scrobbled popup ----------
 
   const songBar = el("song-bar");
-  const songLive = el("song-live");
   const songArt = el("song-art");
   const songArtFallback = el("song-art-fallback");
   const songTag = el("song-tag");
@@ -286,37 +285,10 @@
     (window.SITE_CONFIG && window.SITE_CONFIG.fallbackArt) ||
     "assets/crazy-cat.gif";
 
-  // Give the browser pixel-density matched renditions so it never resamples
-  // across DPRs (upscaled sources = the "pixelated" thumbnails):
-  //   Apple CDN  (/…/N×Nbb.jpg): arbitrary sizes → 200 @1x, 400 @2x, base 400
-  //   Last.fm CDN (/i/u/<size>/<hash>): arbitrary sizes → 300 @1x, 600 @2x, base 600
-  function artSrcSet(url) {
-    if (!url) return null;
-    if (/\/\d+x\d+bb\.jpg$/.test(url)) {
-      const size = function (n) {
-        return url.replace(/\/\d+x\d+bb\.jpg$/, "/" + n + "x" + n + "bb.jpg");
-      };
-      return size(200) + " 1x, " + size(400) + " 2x";
-    }
-    if (/\/i\/u\/(300x300|\d+s)\//.test(url)) {
-      const size = function (n) {
-        return url.replace(/\/i\/u\/[^/]+\//, "/i/u/" + n + "x" + n + "/");
-      };
-      return size(300) + " 1x, " + size(600) + " 2x";
-    }
-    return null;
-  }
-
-  function baseSrc(url) {
-    if (!url) return url;
-    if (/\/\d+x\d+bb\.jpg$/.test(url)) {
-      return url.replace(/\/\d+x\d+bb\.jpg$/, "/400x400bb.jpg");
-    }
-    if (/\/i\/u\/(300x300|\d+s)\//.test(url)) {
-      return url.replace(/\/i\/u\/[^/]+\//, "/i/u/600x600/");
-    }
-    return url;
-  }
+  // Pixel-density matched renditions live in js/arturl.js (tested by
+  // test.js) — Apple 200/400, Last.fm 300/600, base never upscaled.
+  const artSrcSet = function (url) { return window.ART_URL.artSrcSet(url); };
+  const baseSrc = function (url) { return window.ART_URL.baseSrc(url); };
 
   function setArt(imgEl, fallbackEl, src) {
     const use = src || FALLBACK_ART;
@@ -442,7 +414,6 @@
   function toggleRecents(force) {
     const show = force !== undefined ? force : recentsPopup.hidden;
     recentsPopup.hidden = !show;
-    songBar.classList.toggle("open", show);
   }
 
   function initRecentsToggle() {
@@ -573,9 +544,23 @@
     renderBackRecents(tracks);
   }
 
+  // skip the 30s-poll rebuild when nothing changed — rebuilding identical
+  // rows makes an open popup/back panel flicker and resets its scroll
+  let lastTracksSig = null;
+  let lastArtistsSig = null;
+  let lastSongsSig = null;
+
   async function refreshLastfm() {
     let tracks = await window.lastfm.fetchRecentTracks(10);
     if (tracks && tracks.length) {
+      const sig = tracks
+        .map(function (t) {
+          return t.name + "@" + (t.playedAt || 0) + (t.nowplaying ? "!" : "");
+        })
+        .join("|");
+      if (sig === lastTracksSig) return;
+      lastTracksSig = sig;
+
       renderAllTracks(tracks);
       // fill in covers Last.fm is missing (iTunes), then re-render
       await window.lastfm.enrichTracks(tracks);
@@ -586,6 +571,12 @@
   async function refreshTopArtists() {
     let artists = await window.lastfm.fetchTopArtists(5, "7day");
     if (artists && artists.length) {
+      const sig = artists
+        .map(function (a) { return a.name + "@" + a.playcount; })
+        .join("|");
+      if (sig === lastArtistsSig) return;
+      lastArtistsSig = sig;
+
       renderBackArtists(artists);
       await window.lastfm.enrichArtists(artists);
       renderBackArtists(artists);
@@ -595,6 +586,12 @@
   async function refreshTopSongs() {
     const songs = await window.lastfm.fetchTopTracks(5, "7day");
     if (songs && songs.length) {
+      const sig = songs
+        .map(function (t) { return t.name + "@" + t.playcount; })
+        .join("|");
+      if (sig === lastSongsSig) return;
+      lastSongsSig = sig;
+
       renderBackSongs(songs);
       await window.lastfm.enrichTracks(songs);
       renderBackSongs(songs);
@@ -652,8 +649,6 @@
         (r.language ? r.language + " · " : "") + "★ " + r.stars;
       list.appendChild(tile);
     });
-
-    document.body.classList.add("gh-loaded");
   }
 
   function initGitHubWidgets() {
@@ -669,7 +664,7 @@
     const cached = window.githubData.getCached();
     if (cached) renderGitHub(cached);
 
-    if (!cached || !window.githubData.cacheIsFresh()) {
+    if (!cached || !window.githubData.cacheIsFresh(cached)) {
       window.githubData.fetchSummary(gh.repoCount).then(renderGitHub).catch(function () {
         /* offline / rate-limited — keep cached or dashes */
       });
@@ -691,9 +686,15 @@
     playRandomTrack();
     audio.addEventListener("ended", playRandomTrack);
 
-    // keep the ticker correct when the layout changes
+    // keep the ticker correct when the layout changes — debounced, because
+    // iOS fires resize whenever the address bar collapses (a rebuild here
+    // would snap the ticker mid-scroll)
+    let resizeTimer = null;
     window.addEventListener("resize", function () {
-      if (lastMarqueeText) renderMarquee(lastMarqueeText);
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function () {
+        if (lastMarqueeText) renderMarquee(lastMarqueeText);
+      }, 150);
     });
     if (document.fonts && document.fonts.ready) {
       document.fonts.ready.then(function () {

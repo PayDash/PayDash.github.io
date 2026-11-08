@@ -25,8 +25,7 @@
     }
   }
 
-  function cacheIsFresh() {
-    const cached = getCached();
+  function cacheIsFresh(cached) {
     return Boolean(cached && Date.now() - cached.ts < CACHE_TTL);
   }
 
