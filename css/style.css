@@ -647,10 +647,15 @@ body {
   opacity: 1;
 }
 
-/* touch devices: no hover — always show the track, bigger hit targets */
-@media (hover: none) {
+/* touch devices: the drag slider is unreliable on iOS — hide it and keep
+   the tap-to-mute button; real volume lives on the phone's hardware keys */
+@media (hover: none), (pointer: coarse) {
   .volume-wrap { opacity: 1; }
-  .vol-track { width: 130px; opacity: 1; }
+  .vol-track { display: none; }
+  .vol-btn {
+    min-width: 44px;
+    min-height: 44px;
+  }
 }
 
 @media (pointer: coarse) {
