@@ -212,6 +212,7 @@
 
     card.addEventListener("pointerdown", function (e) {
       if (e.target.closest("a, button, .volume-wrap, input, .card-back")) return;
+      if (e.pointerType === "touch") return; // mobile: no drag, touch = scroll/tap only
       if (e.button !== 0 && e.pointerType === "mouse") return;
 
       // first drag: switch from translate(-50%,-50%) to absolute px,
