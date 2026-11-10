@@ -536,6 +536,8 @@ body {
   padding: 4px;
   color: #fff;
   display: flex;
+  align-items: center;
+  justify-content: center;
   transition: transform 0.15s ease, color 0.2s ease;
 }
 
