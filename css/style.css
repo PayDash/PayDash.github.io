@@ -165,18 +165,6 @@ body {
   font-weight: bold;
 }
 
-.back-link {
-  font-size: 12px;
-  line-height: 1;
-  color: rgba(255, 255, 255, 0.6);
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-.back-link:hover {
-  color: var(--accent);
-}
-
 .flip-btn {
   background: none;
   border: none;

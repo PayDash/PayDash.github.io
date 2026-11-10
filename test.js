@@ -77,6 +77,23 @@ test("artSrcSet returns null for unknown URLs (crazy-cat gif)", () => {
   assert.strictEqual(A.artSrcSet(""), null);
 });
 
+// ---- Deezer CDN branch ----
+const DEEZER =
+  "https://cdn-images.dzcdn.net/images/cover/582a0cc292c2e45fe73c8305945d54f4/500x500-000000-80-0-0.jpg";
+
+test("artSrcSet builds 250/500 for Deezer URLs", () => {
+  assert.strictEqual(
+    A.artSrcSet(DEEZER),
+    DEEZER.replace("500x500", "250x250") + " 1x, " + DEEZER + " 2x"
+  );
+});
+
+test("baseSrc normalizes Deezer URLs to 500x500", () => {
+  const xl = DEEZER.replace("500x500", "1000x1000");
+  assert.strictEqual(A.baseSrc(DEEZER), DEEZER);
+  assert.strictEqual(A.baseSrc(xl), DEEZER);
+});
+
 // ---- baseSrc: base src is never upscaled ----
 test("baseSrc rewrites Apple URLs to 400x400", () => {
   assert.strictEqual(A.baseSrc(APPLE), APPLE.replace("200x200bb", "400x400bb"));

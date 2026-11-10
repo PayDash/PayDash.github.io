@@ -36,6 +36,16 @@
       };
       return size(300) + " 1x, " + size(600) + " 2x";
     }
+    if (/\/\d+x\d+-000000-80-0-0\.jpg$/.test(url)) {
+      // Deezer CDN — cover_big / picture_big are stored at 500
+      const size = function (n) {
+        return url.replace(
+          /\/\d+x\d+-000000-80-0-0\.jpg$/,
+          "/" + n + "x" + n + "-000000-80-0-0.jpg"
+        );
+      };
+      return size(250) + " 1x, " + size(500) + " 2x";
+    }
     return null;
   }
 
@@ -47,6 +57,12 @@
     }
     if (/\/i\/u\/(300x300|\d+s)\//.test(url)) {
       return url.replace(/\/i\/u\/[^/]+\//, "/i/u/600x600/");
+    }
+    if (/\/\d+x\d+-000000-80-0-0\.jpg$/.test(url)) {
+      return url.replace(
+        /\/\d+x\d+-000000-80-0-0\.jpg$/,
+        "/500x500-000000-80-0-0.jpg"
+      );
     }
     return url;
   }

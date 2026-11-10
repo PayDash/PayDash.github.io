@@ -164,7 +164,7 @@
   // CORS-enabled and usually has them. Results are cached forever in
   // localStorage — a cover for a given track/artist never changes.
 
-  const ART_KEY = "vibez:artwork:v2"; // v2: 200px renditions (v1 held 300px)
+  const ART_KEY = "vibez:artwork:v3"; // v3: dual-provider chain (wipes poisoned miss cache)
   const ART_MISS_TTL = 60 * 60 * 1000; // retry failed lookups after an hour
   const artCache = {}; // lazy-loaded from localStorage
   let artLoaded = false;
@@ -232,6 +232,71 @@
     return upsize(song && song.artworkUrl100);
   }
 
+  // ---- Deezer fallback (JSONP) ----
+  // itunes.apple.com is unreachable for some iOS visitors (Private Relay /
+  // content blockers). api.deezer.com sends no CORS header, but its JSONP
+  // mode works everywhere, so it doubles as the mobile-safe provider.
+
+  let jsonpSeq = 0;
+
+  function jsonp(url) {
+    return new Promise(function (resolve) {
+      const cb = "__vibezjsonp" + (++jsonpSeq);
+      const script = document.createElement("script");
+      const timer = setTimeout(function () {
+        cleanup();
+        resolve(null);
+      }, 6000);
+      function cleanup() {
+        clearTimeout(timer);
+        delete window[cb];
+        script.remove();
+      }
+      window[cb] = function (data) {
+        cleanup();
+        resolve(data);
+      };
+      script.onerror = function () {
+        cleanup();
+        resolve(null);
+      };
+      script.src =
+        url + (url.indexOf("?") === -1 ? "?" : "&") +
+        "output=jsonp&callback=" + cb;
+      document.head.appendChild(script);
+    });
+  }
+
+  async function deezerTrackArt(query) {
+    const data = await jsonp(
+      "https://api.deezer.com/search?q=" + encodeURIComponent(query) + "&limit=1"
+    );
+    const hit = data && data.data && data.data[0];
+    const cover = hit && hit.album;
+    return (cover && (cover.cover_big || cover.cover_medium)) || "";
+  }
+
+  async function deezerArtistArt(name) {
+    const data = await jsonp(
+      "https://api.deezer.com/search/artist?q=" + encodeURIComponent(name) + "&limit=1"
+    );
+    const hit = data && data.data && data.data[0];
+    return (hit && (hit.picture_big || hit.picture_medium)) || "";
+  }
+
+  async function lookupTrackArt(name, artist) {
+    const q = name + " " + artist;
+    return (
+      (await itunesTrackArt(q)) ||
+      (await deezerTrackArt(q)) ||
+      ""
+    );
+  }
+
+  async function lookupArtistArt(name) {
+    return (await itunesArtistArt(name)) || (await deezerArtistArt(name)) || "";
+  }
+
   function lookupArtwork(kind, name, artist) {
     const cache = loadArtCache();
     const key = kind + ":" + name.toLowerCase() + "|" + (artist || "").toLowerCase();
@@ -239,7 +304,7 @@
     if (hit) {
       if (typeof hit === "string") return Promise.resolve(hit);
       // negative cache: a miss is remembered for an hour so tracks without
-      // art anywhere don't hammer the iTunes API on every poll
+      // art anywhere don't hammer the providers on every poll
       if (typeof hit === "object" && Date.now() - hit.err < ART_MISS_TTL) {
         return Promise.resolve("");
       }
@@ -247,8 +312,8 @@
     if (inflightArt[key]) return inflightArt[key];
 
     const promise = (kind === "artist"
-      ? itunesArtistArt(name)
-      : itunesTrackArt(name + " " + artist)
+      ? lookupArtistArt(name)
+      : lookupTrackArt(name, artist)
     )
       .then(function (url) {
         delete inflightArt[key];
