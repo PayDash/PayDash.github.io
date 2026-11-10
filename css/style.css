@@ -513,7 +513,38 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 10px;
   margin-top: 16px;
+}
+
+.mode-btn {
+  background: none;
+  border: none;
+  padding: 4px;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease, color 0.2s ease;
+}
+
+.mode-btn svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+.mode-btn:hover {
+  transform: scale(1.15);
+  color: #fff;
+}
+
+.mode-btn.is-local {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.mode-btn.is-local:hover {
+  color: var(--accent);
 }
 
 .volume-wrap {
@@ -642,7 +673,8 @@ body {
 @media (hover: none), (pointer: coarse) {
   .volume-wrap { opacity: 1; }
   .vol-track { display: none; }
-  .vol-btn {
+  .vol-btn,
+  .mode-btn {
     min-width: 44px;
     min-height: 44px;
   }

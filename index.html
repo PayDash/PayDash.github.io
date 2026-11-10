@@ -65,6 +65,14 @@
           </div>
 
           <div class="audio-controls">
+            <button type="button" class="mode-btn" id="mode-btn" aria-label="Switch between the preview of your last played song and the local playlist" aria-pressed="true" title="source: preview (last played) — click for local playlist">
+              <svg id="mode-icon-preview" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M12 3a9 9 0 0 0-9 9v7a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2H5v-3a7 7 0 0 1 14 0v3h-2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-7a9 9 0 0 0-9-9z"/>
+              </svg>
+              <svg id="mode-icon-local" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="display:none">
+                <path d="M12 3v10.55A4 4 0 1 0 14 17V7h4V3h-6z"/>
+              </svg>
+            </button>
             <div class="volume-wrap" id="volume-wrap">
               <button id="vol-btn" class="vol-btn" aria-label="Mute / unmute">
                 <svg id="vol-icon-on" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">

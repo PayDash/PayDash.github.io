@@ -120,12 +120,23 @@
     }
   }
 
-  // ---------- audio player (random track, loops forever) ----------
+  // ---------- audio: two sources, toggled by the mode button ----------
+  // "preview" = the 30s Deezer preview of the last scrobbled track (loops)
+  // "local"   = the random local mp3 playlist
+  // NOTE: never compare audio.src strings to detect the preview — Safari
+  // normalizes the signed Deezer URL's characters and the comparison
+  // silently fails. Track it with the playingPreview flag instead.
 
   const audio = el("audio");
   const playlist = (window.SITE_CONFIG && window.SITE_CONFIG.playlist) || [];
 
+  let audioMode = "preview"; // what the mode button starts on
+  let playingPreview = false; // true while audio.src is the Deezer preview
+  let lastPreviewUrl = null;
+  let entered = false;
+
   function playRandomTrack() {
+    playingPreview = false;
     if (!playlist.length) return;
     const next = playlist[Math.floor(Math.random() * playlist.length)];
     if (audio.src !== new URL(next, location.href).href) {
@@ -135,6 +146,14 @@
       audio.currentTime = 0;
     }
     audio.play().catch(function () { /* gesture gate — fine */ });
+  }
+
+  function playPreview() {
+    if (!lastPreviewUrl) return false;
+    audio.src = lastPreviewUrl;
+    playingPreview = true;
+    audio.play().catch(function () {});
+    return true;
   }
 
   // ---------- custom volume slider ----------
@@ -551,6 +570,21 @@
   let lastArtistsSig = null;
   let lastSongsSig = null;
 
+  // 30s Deezer preview of the last scrobbled track — fetched once per load
+  async function fetchPreviewFor(track) {
+    try {
+      const url = await window.lastfm.fetchTrackPreview(track.name, track.artist);
+      if (url) {
+        lastPreviewUrl = url;
+        // arrived after entry (grace window expired) — still tune in, the
+        // mode button asked for it
+        if (entered && audioMode === "preview" && !playingPreview) playPreview();
+      }
+    } catch {
+      /* no preview — local playlist stays */
+    }
+  }
+
   async function refreshLastfm() {
     let tracks = await window.lastfm.fetchRecentTracks(10);
     if (tracks && tracks.length) {
@@ -563,6 +597,7 @@
       lastTracksSig = sig;
 
       renderAllTracks(tracks);
+      fetchPreviewFor(tracks[0]); // fire-and-forget
       // fill in covers Last.fm is missing (iTunes), then re-render
       await window.lastfm.enrichTracks(tracks);
       renderAllTracks(tracks);
@@ -685,7 +720,60 @@
 
     audio.volume = 0.5;
     playRandomTrack();
-    audio.addEventListener("ended", playRandomTrack);
+    audio.addEventListener("ended", function () {
+      // preview mode loops the 30s preview by default; only an explicit
+      // previewEnd: "local" in js/config.js hands off to the playlist
+      const goLocal =
+        window.SITE_CONFIG.previewEnd === "local" ||
+        audioMode !== "preview" ||
+        !playingPreview;
+      if (goLocal) {
+        playRandomTrack();
+      } else {
+        audio.currentTime = 0;
+        audio.play().catch(function () {});
+      }
+    });
+
+    // enter gesture: prefer the 30s preview of the last scrobbled track.
+    // enter.js's own gate listener plays the local track first; this swaps
+    // the source right after when a preview is known. Fast clickers get a
+    // short grace window while the lookup is still in flight.
+    const enterGate = el("enter");
+    if (enterGate) {
+      enterGate.addEventListener("click", function () {
+        entered = true;
+        const clickedAt = Date.now();
+        const iv = setInterval(function () {
+          if (
+            (audioMode === "preview" && lastPreviewUrl && !playingPreview && playPreview()) ||
+            Date.now() - clickedAt > 4000
+          ) {
+            clearInterval(iv);
+          }
+        }, 250);
+      });
+    }
+
+    // mode button (left of volume): preview ⇄ local playlist
+    const modeBtn = el("mode-btn");
+    if (modeBtn) {
+      modeBtn.addEventListener("click", function () {
+        audioMode = audioMode === "preview" ? "local" : "preview";
+        modeBtn.setAttribute("aria-pressed", String(audioMode === "preview"));
+        modeBtn.classList.toggle("is-local", audioMode === "local");
+        modeBtn.title =
+          audioMode === "preview"
+            ? "source: preview (last played) — click for local playlist"
+            : "source: local playlist — click for preview of last played song";
+        el("mode-icon-preview").style.display =
+          audioMode === "preview" ? "block" : "none";
+        el("mode-icon-local").style.display =
+          audioMode === "local" ? "block" : "none";
+        if (audioMode === "preview") playPreview();
+        else playRandomTrack();
+      });
+    }
 
     // keep the ticker correct when the layout changes — debounced, because
     // iOS fires resize whenever the address bar collapses (a rebuild here
