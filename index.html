@@ -65,14 +65,6 @@
           </div>
 
           <div class="audio-controls">
-            <button type="button" class="mode-btn" id="mode-btn" aria-label="Switch between the preview of your last played song and the local playlist" aria-pressed="true" title="source: preview (last played) — click for local playlist">
-              <svg id="mode-icon-preview" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <path d="M12 3a9 9 0 0 0-9 9v7a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2H5v-3a7 7 0 0 1 14 0v3h-2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-7a9 9 0 0 0-9-9z"/>
-              </svg>
-              <svg id="mode-icon-local" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="display:none">
-                <path d="M12 3v10.55A4 4 0 1 0 14 17V7h4V3h-6z"/>
-              </svg>
-            </button>
             <div class="volume-wrap" id="volume-wrap">
               <button id="vol-btn" class="vol-btn" aria-label="Mute / unmute">
                 <svg id="vol-icon-on" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -131,30 +123,6 @@
         </div>
       </div>
 
-    </div>
-  </div>
-
-  <div class="recents" id="recents-popup" hidden>
-    <div class="recents-head">
-      <span>recently played</span>
-      <span class="recents-live-dot"></span>
-    </div>
-    <div class="recents-list" id="recents-list"></div>
-  </div>
-
-  <div class="song-bar" id="song-bar" data-state="empty" title="click for recently played">
-    <div class="song-live" id="song-live">
-      <img id="song-art" class="song-art" alt="">
-      <span id="song-art-fallback" class="song-art-fallback" style="display:none">♪</span>
-      <div class="song-meta">
-        <span class="song-tag" id="song-tag">NOW PLAYING</span>
-        <div class="song-scroll"><span class="song-text" id="song-text"><span class="song-line"></span></span></div>
-        <span class="song-when" id="song-when"></span>
-      </div>
-      <div class="eq" id="song-eq">
-        <span></span><span></span><span></span><span></span><span></span>
-      </div>
-      <span class="song-dot"></span>
     </div>
   </div>
 

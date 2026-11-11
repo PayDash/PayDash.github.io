@@ -517,50 +517,6 @@ body {
   margin-top: 16px;
 }
 
-.mode-btn {
-  background: none;
-  border: none;
-  padding: 4px;
-  color: var(--accent);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.15s ease, color 0.2s ease;
-}
-
-.mode-btn svg {
-  width: 20px;
-  height: 20px;
-  fill: currentColor;
-}
-
-.mode-btn:hover {
-  transform: scale(1.15);
-  color: #fff;
-}
-
-.mode-btn.is-local {
-  color: rgba(255, 255, 255, 0.5);
-}
-
-.mode-btn.is-local:hover {
-  color: var(--accent);
-}
-
-.volume-wrap {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  opacity: 0.45;
-  transition: opacity 0.25s ease;
-  touch-action: none;
-}
-
-.volume-wrap:hover,
-.volume-wrap.dragging {
-  opacity: 1;
-}
-
 .vol-btn {
   background: none;
   border: none;
@@ -673,8 +629,7 @@ body {
 @media (hover: none), (pointer: coarse) {
   .volume-wrap { opacity: 1; }
   .vol-track { display: none; }
-  .vol-btn,
-  .mode-btn {
+  .vol-btn {
     min-width: 44px;
     min-height: 44px;
   }
@@ -685,128 +640,6 @@ body {
     min-width: 44px;
     min-height: 44px;
   }
-}
-
-/* ---------- song bar ---------- */
-
-/* hidden until there's real music data to show */
-.song-bar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: calc(56px + env(safe-area-inset-bottom, 0px));
-  padding-bottom: env(safe-area-inset-bottom, 0px);
-  color: var(--text);
-  display: none;
-  align-items: center;
-  overflow: hidden;
-  z-index: 10;
-  background: var(--bar-bg);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-top: 1px solid var(--glass-border);
-}
-
-.song-bar[data-state="playing"],
-.song-bar[data-state="idle"] {
-  display: flex;
-  cursor: pointer;
-}
-
-.song-bar[data-state="playing"]:hover,
-.song-bar[data-state="idle"]:hover {
-  background: rgba(16, 16, 20, 0.6);
-}
-
-.song-live {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  width: 100%;
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 0 18px;
-}
-
-.song-art {
-  width: 48px;
-  height: 48px;
-  border-radius: 8px;
-  object-fit: cover;
-  border: 1px solid var(--glass-border);
-  box-shadow: 0 0 10px rgba(182, 156, 255, 0.25);
-  flex-shrink: 0;
-}
-
-.song-art-fallback {
-  width: 48px;
-  height: 48px;
-  border-radius: 8px;
-  border: 1px solid var(--glass-border);
-  background: rgba(255, 255, 255, 0.06);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  color: var(--accent);
-  flex-shrink: 0;
-}
-
-.song-meta {
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-  flex: 1;
-  min-width: 0;
-  overflow: hidden; /* second clip level — iOS compositing can escape one */
-}
-
-.song-tag {
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  color: var(--accent);
-  font-weight: bold;
-}
-
-.song-bar[data-state="idle"] .song-tag {
-  color: rgba(255, 255, 255, 0.55);
-}
-
-.song-scroll {
-  overflow: hidden;
-  min-width: 0;
-  width: 100%;
-  /* clip-path holds the animated ticker layer inside on iOS, where a
-     composited transform can escape a plain overflow:hidden clip and
-     drag the row (and the album art) off-screen */
-  clip-path: inset(0);
-  white-space: nowrap;
-  mask-image: linear-gradient(90deg, transparent, #000 4%, #000 92%, transparent);
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 92%, transparent);
-}
-
-.song-text {
-  display: inline-flex;
-  font-size: 14px;
-  white-space: nowrap;
-  animation: marquee var(--marquee-duration, 14s) linear infinite;
-  will-change: transform;
-}
-
-.song-text .song-line {
-  padding-right: 48px; /* breathing room between loop repetitions */
-}
-
-/* seamless loop: shift by exactly one copy unit — copies are tiled wide
-   enough that the next one is always entering as the previous one exits */
-@keyframes marquee {
-  to { transform: translateX(calc(-1 * var(--marquee-shift, 50%))); }
-}
-
-.song-when {
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.45);
 }
 
 /* equalizer bars — only while playing */
@@ -834,68 +667,6 @@ body {
 @keyframes eq-bounce {
   0%, 100% { height: 4px; }
   50% { height: 16px; }
-}
-
-.song-bar[data-state="idle"] .eq { display: none; }
-
-.song-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--accent);
-  flex-shrink: 0;
-}
-
-.song-bar[data-state="playing"] .song-dot {
-  animation: dot-pulse 1.6s ease-in-out infinite;
-}
-
-@keyframes dot-pulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(182, 156, 255, 0.6); }
-  50% { box-shadow: 0 0 0 6px rgba(182, 156, 255, 0); }
-}
-
-.song-bar[data-state="idle"] .song-dot {
-  background: rgba(255, 255, 255, 0.3);
-}
-
-/* ---------- recents popup ---------- */
-
-.recents {
-  position: fixed;
-  bottom: calc(66px + env(safe-area-inset-bottom, 0px));
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(92vw, 480px);
-  max-height: 340px;
-  overflow-y: auto;
-  z-index: 30;
-  background: rgba(12, 12, 16, 0.72);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--glass-border);
-  border-radius: 18px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-  padding: 12px;
-}
-
-.recents-head {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 12px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.7);
-  padding: 2px 6px 10px;
-}
-
-.recents-live-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--accent);
-  animation: dot-pulse 1.6s ease-in-out infinite;
 }
 
 .recent-row {
@@ -977,9 +748,6 @@ body {
     max-width: 100%;
   }
 
-  .song-bar { height: calc(52px + env(safe-area-inset-bottom, 0px)); }
-  .recents { bottom: calc(62px + env(safe-area-inset-bottom, 0px)); }
-  .song-live { padding: 0 14px; }
 }
 
 /* ---------- reduced motion ---------- */

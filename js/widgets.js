@@ -1,5 +1,5 @@
-// UI wiring: typewriter, audio player, custom volume slider, draggable
-// card, Now Playing bar + Recently Scrobbled popup, GitHub strip.
+// UI wiring: typewriter, audio player (local playlist), custom volume
+// slider, draggable card, music activity panel, GitHub strip.
 
 (function () {
   "use strict";
@@ -120,23 +120,12 @@
     }
   }
 
-  // ---------- audio: two sources, toggled by the mode button ----------
-  // "preview" = the 30s Deezer preview of the last scrobbled track (loops)
-  // "local"   = the random local mp3 playlist
-  // NOTE: never compare audio.src strings to detect the preview — Safari
-  // normalizes the signed Deezer URL's characters and the comparison
-  // silently fails. Track it with the playingPreview flag instead.
+  // ---------- audio player (random local track, loops forever) ----------
 
   const audio = el("audio");
   const playlist = (window.SITE_CONFIG && window.SITE_CONFIG.playlist) || [];
 
-  let audioMode = "preview"; // what the mode button starts on
-  let playingPreview = false; // true while audio.src is the Deezer preview
-  let lastPreviewUrl = null;
-  let entered = false;
-
   function playRandomTrack() {
-    playingPreview = false;
     if (!playlist.length) return;
     const next = playlist[Math.floor(Math.random() * playlist.length)];
     if (audio.src !== new URL(next, location.href).href) {
@@ -146,14 +135,6 @@
       audio.currentTime = 0;
     }
     audio.play().catch(function () { /* gesture gate — fine */ });
-  }
-
-  function playPreview() {
-    if (!lastPreviewUrl) return false;
-    audio.src = lastPreviewUrl;
-    playingPreview = true;
-    audio.play().catch(function () {});
-    return true;
   }
 
   // ---------- custom volume slider ----------
@@ -279,7 +260,6 @@
       force !== undefined ? force : !cardFlip.classList.contains("flipped");
     cardFlip.classList.toggle("flipped", showBack);
     flipBtn.setAttribute("aria-expanded", String(showBack));
-    if (showBack) toggleRecents(false); // don't stack popups over the flipped card
   }
 
   function initFlip() {
@@ -290,16 +270,7 @@
     });
   }
 
-  // ---------- Now Playing bar + Recently Scrobbled popup ----------
-
-  const songBar = el("song-bar");
-  const songArt = el("song-art");
-  const songArtFallback = el("song-art-fallback");
-  const songTag = el("song-tag");
-  const songText = el("song-text");
-  const songWhen = el("song-when");
-  const recentsPopup = el("recents-popup");
-  const recentsList = el("recents-list");
+  // ---------- music activity panel (card back) ----------
 
   const FALLBACK_ART =
     (window.SITE_CONFIG && window.SITE_CONFIG.fallbackArt) ||
@@ -338,54 +309,7 @@
     }
   }
 
-  // ---------- song-title ticker ----------
-  // Tiles enough copies of the title that one unit is always entering from
-  // the right as the previous exits left, then loops by shifting exactly one
-  // unit width — no snap, no blank gap, no pop-in.
-
-  let lastMarqueeText = null;
-
-  function renderMarquee(text) {
-    if (!text) return;
-    const GAP = 48; // keep in sync with .song-line padding-right
-    songText.innerHTML = "";
-    const line = document.createElement("span");
-    line.className = "song-line";
-    line.textContent = text;
-    songText.appendChild(line);
-
-    // .song-scroll may be display:none on the very first render — estimate
-    const containerW =
-      songText.parentElement.clientWidth ||
-      Math.max(320, Math.round(window.innerWidth * 0.5));
-    const unit = line.getBoundingClientRect().width + GAP;
-    if (unit <= GAP) return; // font not ready yet; fonts.ready retries below
-
-    const copies = Math.max(2, Math.ceil((containerW + unit) / unit));
-    for (let i = 1; i < copies; i++) {
-      songText.appendChild(line.cloneNode(true));
-    }
-
-    songText.style.setProperty("--marquee-shift", unit.toFixed(1) + "px");
-    songText.style.animationDuration = Math.max(6, unit / 30).toFixed(1) + "s";
-    lastMarqueeText = text;
-  }
-
-  function renderBar(tracks) {
-    if (!tracks || !tracks.length) return;
-    const current = tracks[0];
-    const playing = Boolean(current.nowplaying);
-    const wasEmpty = songBar.dataset.state === "empty"; // bar was hidden
-
-    songBar.dataset.state = playing ? "playing" : "idle";
-    songTag.textContent = playing ? "NOW PLAYING" : "LAST PLAYED";
-    const line = current.name + " — " + current.artist;
-    // rebuild only when the track changes (or the bar just became visible) —
-    // rebuilding on every 30s poll would restart the ticker with a snap
-    if (line !== lastMarqueeText || wasEmpty) renderMarquee(line);
-    songWhen.textContent = playing ? "" : timeAgo(current.playedAt);
-    setArt(songArt, songArtFallback, current.image);
-  }
+  // ---------- recent-track rows (card back) ----------
 
   function buildRecentRow(t) {
     const row = document.createElement(t.url ? "a" : "div");
@@ -422,32 +346,6 @@
     row.appendChild(meta);
     row.appendChild(when);
     return row;
-  }
-
-  function renderRecents(tracks) {
-    recentsList.innerHTML = "";
-    tracks.slice(0, 8).forEach(function (t) {
-      recentsList.appendChild(buildRecentRow(t));
-    });
-  }
-
-  function toggleRecents(force) {
-    const show = force !== undefined ? force : recentsPopup.hidden;
-    recentsPopup.hidden = !show;
-  }
-
-  function initRecentsToggle() {
-    songBar.addEventListener("click", function () {
-      toggleRecents();
-    });
-    document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape") toggleRecents(false);
-    });
-    document.addEventListener("click", function (e) {
-      if (recentsPopup.hidden) return;
-      if (e.target.closest("#song-bar") || e.target.closest("#recents-popup")) return;
-      toggleRecents(false);
-    });
   }
 
   // ---------- card back: music activity panel ----------
@@ -557,33 +455,11 @@
 
   // ---------- Last.fm data flow ----------
 
-  function renderAllTracks(tracks) {
-    renderBar(tracks);
-    renderRecents(tracks);
-    renderBackNP(tracks[0]);
-    renderBackRecents(tracks);
-  }
-
   // skip the 30s-poll rebuild when nothing changed — rebuilding identical
-  // rows makes an open popup/back panel flicker and resets its scroll
+  // rows makes an open back panel flicker and resets its scroll
   let lastTracksSig = null;
   let lastArtistsSig = null;
   let lastSongsSig = null;
-
-  // 30s Deezer preview of the last scrobbled track — fetched once per load
-  async function fetchPreviewFor(track) {
-    try {
-      const url = await window.lastfm.fetchTrackPreview(track.name, track.artist);
-      if (url) {
-        lastPreviewUrl = url;
-        // arrived after entry (grace window expired) — still tune in, the
-        // mode button asked for it
-        if (entered && audioMode === "preview" && !playingPreview) playPreview();
-      }
-    } catch {
-      /* no preview — local playlist stays */
-    }
-  }
 
   async function refreshLastfm() {
     let tracks = await window.lastfm.fetchRecentTracks(10);
@@ -596,11 +472,12 @@
       if (sig === lastTracksSig) return;
       lastTracksSig = sig;
 
-      renderAllTracks(tracks);
-      fetchPreviewFor(tracks[0]); // fire-and-forget
+      renderBackNP(tracks[0]);
+      renderBackRecents(tracks);
       // fill in covers Last.fm is missing (iTunes), then re-render
       await window.lastfm.enrichTracks(tracks);
-      renderAllTracks(tracks);
+      renderBackNP(tracks[0]);
+      renderBackRecents(tracks);
     }
   }
 
@@ -635,15 +512,10 @@
   }
 
   function initLastfmWidgets() {
-    // no bar at all until there's something real to show
     if (!window.lastfm.isConfigured()) return;
 
     const cached = window.lastfm.getCached();
     if (cached) renderMusicBack(cached);
-    if (cached && cached.tracks && cached.tracks.length) {
-      renderBar(cached.tracks);
-      renderRecents(cached.tracks);
-    }
 
     refreshLastfm();
     setInterval(refreshLastfm, 30000);
@@ -714,81 +586,11 @@
     initVolumeSlider();
     initDrag();
     initFlip();
-    initRecentsToggle();
     initLastfmWidgets();
     initGitHubWidgets();
 
     audio.volume = 0.5;
     playRandomTrack();
-    audio.addEventListener("ended", function () {
-      // preview mode loops the 30s preview by default; only an explicit
-      // previewEnd: "local" in js/config.js hands off to the playlist
-      const goLocal =
-        window.SITE_CONFIG.previewEnd === "local" ||
-        audioMode !== "preview" ||
-        !playingPreview;
-      if (goLocal) {
-        playRandomTrack();
-      } else {
-        audio.currentTime = 0;
-        audio.play().catch(function () {});
-      }
-    });
-
-    // enter gesture: prefer the 30s preview of the last scrobbled track.
-    // enter.js's own gate listener plays the local track first; this swaps
-    // the source right after when a preview is known. Fast clickers get a
-    // short grace window while the lookup is still in flight.
-    const enterGate = el("enter");
-    if (enterGate) {
-      enterGate.addEventListener("click", function () {
-        entered = true;
-        const clickedAt = Date.now();
-        const iv = setInterval(function () {
-          if (
-            (audioMode === "preview" && lastPreviewUrl && !playingPreview && playPreview()) ||
-            Date.now() - clickedAt > 4000
-          ) {
-            clearInterval(iv);
-          }
-        }, 250);
-      });
-    }
-
-    // mode button (left of volume): preview ⇄ local playlist
-    const modeBtn = el("mode-btn");
-    if (modeBtn) {
-      modeBtn.addEventListener("click", function () {
-        audioMode = audioMode === "preview" ? "local" : "preview";
-        modeBtn.setAttribute("aria-pressed", String(audioMode === "preview"));
-        modeBtn.classList.toggle("is-local", audioMode === "local");
-        modeBtn.title =
-          audioMode === "preview"
-            ? "source: preview (last played) — click for local playlist"
-            : "source: local playlist — click for preview of last played song";
-        el("mode-icon-preview").style.display =
-          audioMode === "preview" ? "block" : "none";
-        el("mode-icon-local").style.display =
-          audioMode === "local" ? "block" : "none";
-        if (audioMode === "preview") playPreview();
-        else playRandomTrack();
-      });
-    }
-
-    // keep the ticker correct when the layout changes — debounced, because
-    // iOS fires resize whenever the address bar collapses (a rebuild here
-    // would snap the ticker mid-scroll)
-    let resizeTimer = null;
-    window.addEventListener("resize", function () {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(function () {
-        if (lastMarqueeText) renderMarquee(lastMarqueeText);
-      }, 150);
-    });
-    if (document.fonts && document.fonts.ready) {
-      document.fonts.ready.then(function () {
-        if (lastMarqueeText) renderMarquee(lastMarqueeText);
-      });
-    }
+    audio.addEventListener("ended", playRandomTrack);
   });
 })();

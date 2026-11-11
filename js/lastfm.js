@@ -154,7 +154,6 @@
     fetchRecentTracks: fetchRecentTracks,
     fetchTopArtists: fetchTopArtists,
     fetchTopTracks: fetchTopTracks,
-    fetchTrackPreview: fetchTrackPreview,
     enrichTracks: enrichTracks,
     enrichArtists: enrichArtists,
   };
@@ -283,22 +282,6 @@
     );
     const hit = data && data.data && data.data[0];
     return (hit && (hit.picture_big || hit.picture_medium)) || "";
-  }
-
-  // ---- 30s preview streams ----
-  // The Deezer track response carries a signed ~30s mp3 preview, so the
-  // site can play what was actually last scrobbled instead of the local
-  // mp3s. Preview URLs are time-limited (signed) — fetch fresh each page
-  // load, keep in memory only.
-
-  async function fetchTrackPreview(name, artist) {
-    const data = await jsonp(
-      "https://api.deezer.com/search?q=" +
-        encodeURIComponent(name + " " + artist) +
-        "&limit=1"
-    );
-    const hit = data && data.data && data.data[0];
-    return (hit && hit.preview) || "";
   }
 
   async function lookupTrackArt(name, artist) {

@@ -24,11 +24,6 @@ window.SITE_CONFIG = {
   // shown when neither Last.fm nor iTunes has cover art for a track/artist
   fallbackArt: "assets/crazy-cat.gif",
 
-  // what plays when the 30s preview of your last scrobbled track ends:
-  //   "loop"  — replay the same preview (until you leave the site)
-  //   "local" — hand off to the random local playlist above
-  previewEnd: "loop",
-
   playlist: [
     "assets/loseme.mp3",
     "assets/moonlight.mp3",
